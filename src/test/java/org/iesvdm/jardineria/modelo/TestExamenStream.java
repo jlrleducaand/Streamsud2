@@ -144,8 +144,9 @@ class TestExamenStream {
             List<Oficina> list = oficinaHome.findAll();
 
             //TODO STREAMS
-            var solList = list.stream();
-
+            var solList = list.stream()
+                    .sorted((o1, o2) -> o2.getCiudad().compareTo(o1.getCiudad()))
+                    .map(o -> "ciudad" + o.getCiudad() + "telefono" + o.getTelefono()).toList();
             solList.forEach(System.out::println);
 
             oficinaHome.commitTransaction();
@@ -172,7 +173,10 @@ class TestExamenStream {
             List<Empleado> list = empleadoHome.findAll();
 
             //TODO STREAMS
-            var solList = list.stream();
+            var solList = list.stream()
+                    .filter(empleado -> empleado.getJefe()!=null && empleado.getJefe().getCodigoEmpleado() == 7)
+                    .toList();
+
 
             solList.forEach(System.out::println);
 
@@ -200,7 +204,14 @@ class TestExamenStream {
             List<Cliente> list = clienteHome.findAll();
 
             //TODO STREAMS
-            var solList = list.stream();
+            var solList = list.stream()
+                    .filter(cliente -> cliente.getRepresentanteVentas()!= null )
+                    .sorted((o1, o2) -> o2.getRepresentanteVentas().getApellido1().compareTo(o1.getRepresentanteVentas().getApellido1()))
+                    .map(cliente -> "Nombre Cliente " + cliente.getNombreCliente() + "nombre Representante " + cliente.getRepresentanteVentas().getApellido1())
+                    .collect(toList());
+
+
+                                    .
 
             solList.forEach(System.out::println);
 
